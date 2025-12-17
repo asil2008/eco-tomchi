@@ -1,0 +1,53 @@
+{% extends 'articles/base.html' %}
+
+{% block title %}
+    {% if current_category %}{{ current_category.name }} | Eco-Tomchi{% else %}Bosh sahifa | Eco-Tomchi{% endif %}
+{% endblock %}
+
+{% block content %}
+<header class="py-12 bg-blue-50 border-b border-blue-100 mb-10">
+    <div class="container mx-auto px-6">
+        {% if current_category %}
+            <h1 class="text-4xl font-black text-blue-900">Kategoriya: <span class="text-blue-600 underline">{{ current_category.name }}</span></h1>
+            <p class="mt-2 text-gray-600">{{ current_category.description }}</p>
+        {% else %}
+            <h1 class="text-4xl font-black text-blue-900 italic uppercase">Suv — bebaho ne'mat</h1>
+            <p class="mt-2 text-gray-600 text-lg italic">Suvdan oqilona foydalanish bo'yicha kundalik tavsiyalar.</p>
+        {% endif %}
+    </div>
+</header>
+
+<div class="container mx-auto px-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {% for article in articles %}
+        <article class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 group">
+            {% if article.featured_image %}
+                <div class="overflow-hidden h-56">
+                    <img src="{{ article.featured_image.url }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ article.title }}">
+                </div>
+            {% endif %}
+            <div class="p-8">
+                <div class="flex items-center space-x-2 mb-4 text-[10px] font-bold tracking-widest text-blue-500 uppercase">
+                    {% if article.category %}
+                        <a href="{% url 'articles:category_detail' article.category.id %}" class="bg-blue-50 px-3 py-1 rounded-full hover:bg-blue-100 transition">{{ article.category.name }}</a>
+                    {% endif %}
+                    <span class="text-gray-400">• {{ article.published_date|date:"d.m.Y" }}</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition">
+                    <a href="{% url 'articles:article_detail' article.slug %}">{{ article.title }}</a>
+                </h2>
+                <p class="text-gray-500 text-sm leading-relaxed mb-6">{{ article.content|truncatewords:20 }}</p>
+                <a href="{% url 'articles:article_detail' article.slug %}" class="inline-flex items-center text-blue-600 font-black text-xs uppercase tracking-wider group-hover:translate-x-2 transition-transform">
+                    O'qish <i class="fas fa-arrow-right ml-2 text-[10px]"></i>
+                </a>
+            </div>
+        </article>
+        {% empty %}
+        <div class="col-span-full py-20 text-center">
+            <i class="fas fa-faucet-drip text-6xl text-blue-200 mb-4"></i>
+            <p class="text-xl text-gray-400 font-medium">Bu bo'limda hozircha maqolalar mavjud emas.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Eco-Tomchi{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-gray-800 flex flex-col min-h-screen">
+
+    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-blue-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="{% url 'articles:article_list' %}" class="flex items-center space-x-2">
+                <i class="fas fa-droplet text-blue-600 text-2xl"></i>
+                <span class="text-2xl font-black text-blue-900 tracking-tighter uppercase">Eco-Tomchi</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 items-center font-bold text-sm text-gray-600">
+                <a href="{% url 'articles:article_list' %}" class="hover:text-blue-600">BOSH SAHIFA</a>
+                
+                <div class="relative group">
+                    <button class="hover:text-blue-600 flex items-center uppercase">
+                        KATEGORIYALAR <i class="fas fa-chevron-down ml-1 text-[10px]"></i>
+                    </button>
+                    <div class="absolute hidden group-hover:block w-56 bg-white shadow-2xl rounded-xl mt-0 py-3 border border-gray-100 animate-fade-in">
+                        {% for cat in categories %}
+                            <a href="{% url 'articles:category_detail' cat.id %}" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-600 transition">
+                                {{ cat.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <a href="{% url 'articles:about' %}" class="hover:text-blue-600">BIZ HAQIMIZDA</a>
+                <a href="{% url 'articles:contact' %}" class="hover:text-blue-600">ALOQA</a>
+                
+                {% if user.is_staff %}
+                    <a href="/admin" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">
+                        <i class="fas fa-pen-nib mr-1"></i> WRITE
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-blue-900 text-blue-100 py-12 mt-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-xl font-bold text-white mb-4 italic">"Har bir tomchida hayot bor"</p>
+            <p class="text-sm text-blue-300">&copy; 2025 Eco-Tomchi. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

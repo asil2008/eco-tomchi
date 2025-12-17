@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ article.title }} | Eco-Tomchi</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 40px; }
+        .back-link { color: #0077be; text-decoration: none; margin-bottom: 20px; display: inline-block; }
+        h1 { color: #0077be; font-size: 2.5em; margin-bottom: 10px; }
+        .meta { color: #666; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        img { width: 100%; height: auto; border-radius: 12px; margin-bottom: 30px; }
+        .content { font-size: 1.2em; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <a href="{% url 'articles:article_list' %}" class="back-link">← Back to all stories</a>
+    
+    <h1>{{ article.title }}</h1>
+    <div class="meta">
+        Published on {{ article.published_date|date:"F j, Y" }} | 
+        Category: <strong>{{ article.category.name }}</strong>
+    </div>
+
+    {% if article.featured_image %}
+        <img src="{{ article.featured_image.url }}" alt="{{ article.title }}">
+    {% endif %}
+
+    <div class="content">
+        {{ article.content }}
+    </div>
+</body>
+</html>
