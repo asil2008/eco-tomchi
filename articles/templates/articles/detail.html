@@ -1,31 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ article.title }} | Eco-Tomchi</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 40px; }
-        .back-link { color: #0077be; text-decoration: none; margin-bottom: 20px; display: inline-block; }
-        h1 { color: #0077be; font-size: 2.5em; margin-bottom: 10px; }
-        .meta { color: #666; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        img { width: 100%; height: auto; border-radius: 12px; margin-bottom: 30px; }
-        .content { font-size: 1.2em; white-space: pre-wrap; }
-    </style>
-</head>
-<body>
-    <a href="{% url 'articles:article_list' %}" class="back-link">← Back to all stories</a>
-    
-    <h1>{{ article.title }}</h1>
-    <div class="meta">
-        Published on {{ article.published_date|date:"F j, Y" }} | 
-        Category: <strong>{{ article.category.name }}</strong>
+{% extends 'articles/base.html' %}
+
+{% block content %}
+<main class="container mx-auto px-4 py-12 max-w-4xl">
+    <div class="mb-8">
+        <a href="{% url 'articles:article_list' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i> Barcha maqolalarga qaytish
+        </a>
     </div>
 
-    {% if article.featured_image %}
-        <img src="{{ article.featured_image.url }}" alt="{{ article.title }}">
-    {% endif %}
+    <article>
+        <header class="mb-8">
+            {% if article.category %}
+            <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-widest text-blue-600 uppercase bg-blue-50 rounded-full">
+                {{ article.category.name }}
+            </span>
+            {% endif %}
+            
+            <h1 class="text-3xl md:text-5xl font-black text-gray-900 leading-tight mb-4">
+                {{ article.title }}
+            </h1>
 
-    <div class="content">
-        {{ article.content }}
-    </div>
-</body>
-</html>
+            <div class="flex items-center text-gray-500 text-sm italic">
+                <i class="far fa-calendar-alt mr-2"></i>
+                <span>Chop etilgan sana: {{ article.published_date|date:"d-F, Y" }}</span>
+            </div>
+        </header>
+
+        <div class="mb-10 rounded-3xl overflow-hidden shadow-2xl bg-gray-100">
+            {% if article.image_url %}
+                <img src="{{ article.image_url }}" class="w-full h-auto max-h-[500px] object-cover" alt="{{ article.title }}">
+            {% elif article.featured_image %}
+                <img src="{{ article.featured_image.url }}" class="w-full h-auto max-h-[500px] object-cover" alt="{{ article.title }}">
+            {% else %}
+                <div class="w-full h-64 flex flex-col items-center justify-center text-blue-300">
+                    <i class="fas fa-droplet text-6xl mb-4"></i>
+                    <p class="text-gray-400">Rasm mavjud emas</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-6">
+            {{ article.content|linebreaks }}
+        </div>
+
+        <footer class="mt-16 pt-8 border-t border-gray-100">
+            <div class="bg-blue-50 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between">
+                <div>
+                    <h4 class="text-xl font-bold text-blue-900 mb-2">Maqola sizga yoqdimi?</h4>
+                    <p class="text-blue-700">Ekologiyani asrash bo'yicha boshqa maqolalarimizni ham o'qing.</p>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <a href="{% url 'articles:article_list' %}" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                        Boshqa maqolalar
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </article>
+</main>
+{% endblock %}
