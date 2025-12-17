@@ -24,5 +24,3 @@ def article_detail(request, slug):
 def about(request):
     return render(request, 'articles/about.html', {'categories': Category.objects.all()})
 
-def contact(request):
-    return render(request, 'articles/contact.html', {'categories': Category.objects.all()})

@@ -1,8 +1,20 @@
 {% extends 'articles/base.html' %}
 
 {% block content %}
-<div class="container mx-auto px-6 py-12">
+<section class="bg-blue-600 py-16 mb-12">
+    <div class="container mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-black text-white mb-4">
+            Suv - Hayot Manbai
+        </h1>
+        <p class="text-blue-100 text-lg max-w-2xl mx-auto">
+            Eco-Tomchi loyihasi orqali suvni tejash, tabiatni asrash va ekologik muammolarga birgalikda yechim topamiz. Bizning maqolalarimizni kuzatib boring!
+        </p>
+    </div>
+</section>
+
+<div class="container mx-auto px-6 py-8">
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        
         {% for article in articles %}
         <article class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 group">
             
@@ -21,9 +33,9 @@
             <div class="p-8">
                 <div class="mb-4">
                     {% if article.category %}
-                        <a href="{% url 'articles:category_detail' article.category.id %}" class="text-blue-500 text-xs font-bold uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">
+                        <span class="text-blue-500 text-xs font-bold uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">
                             {{ article.category.name }}
-                        </a>
+                        </span>
                     {% endif %}
                 </div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-4 hover:text-blue-600">
@@ -35,7 +47,17 @@
                 </a>
             </div>
         </article>
+
+        {% empty %}
+        <div class="col-span-full py-20 text-center">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-6">
+                <i class="fas fa-search text-gray-400 text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Hozircha maqolalar mavjud emas</h3>
+            <p class="text-gray-500">Tez orada qiziqarli va foydali ma'lumotlarni yuklaymiz. Bizni kuzatishda davom eting!</p>
+        </div>
         {% endfor %}
+
     </div>
 </div>
 {% endblock %}

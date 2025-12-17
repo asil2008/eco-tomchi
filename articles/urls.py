@@ -18,5 +18,4 @@ urlpatterns = [
     
     # 4. Statik sahifalar - Biz haqimizda va Aloqa
     path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
 ]
